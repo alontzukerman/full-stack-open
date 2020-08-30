@@ -1,7 +1,23 @@
+const morgan = require('morgan')
 const express = require('express')
 const app = express()
 
 app.use(express.json())
+
+// exercises 3.7-3.8 ==> morgan
+morgan.token('method', (req,res)=>{
+  return req.method;
+})
+morgan.token('path', (req,res)=>{
+  return req.path;
+})
+morgan.token('status', (req,res)=>{
+  return res.statusCode;
+})
+morgan.token('body', (req,res)=>{
+  return JSON.stringify(req.body);
+})
+app.use(morgan(':method :url :status - :body'))
 
 let persons = [
   {
@@ -26,6 +42,7 @@ let persons = [
   }
 ]
 
+
 app.get('/info', (req, res) => { // exercise 3.2
 const info = `<div>Phonebook has info for ${persons.length} people</div><div>${new Date()}</div>`
   res.send(info)
@@ -47,8 +64,7 @@ app.get('/api/persons/:id', (request, response) => { // exercise 3.3
 
 app.delete('/api/persons/:id', (request, response) => { // exercise 3.4
     const id = Number(request.params.id)
-    persons = persons.filter(person => person.id !== id)
-    console.log(persons)  
+    persons = persons.filter(person => person.id !== id) 
     response.status(204).end()
 })
 
@@ -63,9 +79,7 @@ app.post('/api/persons', (request, response) => { //exercise 3.5
     return response.status(400).json({error: 'missing name or number'})
   }
   if (body.name && body.number){ // exercise 3.6
-    if(persons.find(person => {
-      console.log(person.name)
-      console.log(body.name)    
+    if(persons.find(person => {   
       return (person.name).toLowerCase() === (body.name).toLowerCase()
     }))
       return response.status(400).json({error: 'name is already exist'})
@@ -78,7 +92,6 @@ app.post('/api/persons', (request, response) => { //exercise 3.5
   }
 
   persons = persons.concat(person)
-  console.log(persons)
   response.json(person)
 })
 
