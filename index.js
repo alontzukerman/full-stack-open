@@ -7,6 +7,8 @@ app.use(express.json())
 
 app.use(cors())
 
+app.use(express.static('./frontend/build'))
+
 // exercises 3.7-3.8 ==> morgan
 morgan.token('method', (req,res)=>{
   return req.method;
