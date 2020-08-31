@@ -7,7 +7,7 @@ app.use(express.json())
 
 app.use(cors())
 
-app.use(express.static('./frontend/build'))
+app.use(express.static('build'))
 
 // exercises 3.7-3.8 ==> morgan
 morgan.token('method', (req,res)=>{
@@ -101,5 +101,4 @@ app.post('/api/persons', (request, response) => { //exercise 3.5
 })
 
 const PORT = process.env.PORT || 3001
-app.listen(PORT)
-console.log(`Server running on port ${PORT}`)
+app.listen(PORT,()=>console.log(`Server running on port ${PORT}`));
