@@ -1,8 +1,11 @@
 const morgan = require('morgan')
+const cors = require('cors')
 const express = require('express')
 const app = express()
 
 app.use(express.json())
+
+app.use(cors())
 
 // exercises 3.7-3.8 ==> morgan
 morgan.token('method', (req,res)=>{
@@ -49,7 +52,7 @@ const info = `<div>Phonebook has info for ${persons.length} people</div><div>${n
 })
   
 app.get('/api/persons', (req, res) => { // exercise 3.1
-  res.json(persons)
+  res.send(persons)
 })
 
 app.get('/api/persons/:id', (request, response) => { // exercise 3.3
@@ -95,6 +98,6 @@ app.post('/api/persons', (request, response) => { //exercise 3.5
   response.json(person)
 })
 
-const PORT = 3001
+const PORT = process.env.PORT || 3001
 app.listen(PORT)
 console.log(`Server running on port ${PORT}`)
