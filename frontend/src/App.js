@@ -17,6 +17,7 @@ function App() {
   }, []);
 
   const handleDelete = (e) => {
+    console.log(e.target.id)
     axios.delete(`/api/persons/${e.target.id}`)
     getBook();
   };
